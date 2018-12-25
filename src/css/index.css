@@ -1,0 +1,37 @@
+* { margin: 0; padding: 0; }
+p { margin: 5px 0 10px 0; }
+[draggable] {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    /* Required to make elements draggable in old WebKit */
+    -khtml-user-drag: element;
+    -webkit-user-drag: element;
+}
+
+
+.sandbox {
+    background-color: #f1f1f1;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    outline: none;
+}
+
+.mark {
+    position: absolute;
+    margin-top: -5px;
+    margin-left: -10px;
+}
+
+.moving {
+    opacity: 0.25;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+}
+
+.over {
+    background-color: red !important;
+}
