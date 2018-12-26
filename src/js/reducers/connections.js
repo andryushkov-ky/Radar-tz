@@ -23,7 +23,7 @@ export default (state = initialState, { type, deleteId, connectMark }) => {
             ]
         case DELETE_CONNECTION:
             return state.filter(bond =>
-                bond.id !== deleteId
+                bond.id !== +deleteId
             )
         default:
             return state

@@ -8,7 +8,8 @@ import {
 class MarkItem extends Component {
     static propTypes = {
         mark: PropTypes.object.isRequired,
-        editMark: PropTypes.func.isRequired
+        editMark: PropTypes.func.isRequired,
+        pickMark: PropTypes.func.isRequired
     }
 
     state = {
@@ -28,17 +29,18 @@ class MarkItem extends Component {
     }
 
     render() {
-        const { mark } = this.props
+        const { mark, pickMark } = this.props
         const classHelper = this.state.moving ? `moving` : '';
 
         return (
             <div
-                className={`mark el ${classHelper}`}
+                className={`mark ${classHelper}`}
                 draggable='true'
                 onDragStart={(e) => this.dragStart(e)}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => e.stopPropagation()}
                 onDragEnd={(e) => this.dragEnd(e)}
+                onClick={(e) => pickMark(e, mark.id)}
                 style={{
                     top: mark.y,
                     left: mark.x,

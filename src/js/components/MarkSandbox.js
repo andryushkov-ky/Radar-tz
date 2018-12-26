@@ -31,8 +31,93 @@ class MarkSandbox extends Component {
         connectionActions: PropTypes.object.isRequired
     }
 
-    pickMark(id) {
-        console.log("hey", id);
+    state = {
+        pickedMarkId: null,
+        pickedMarkTarget: null,
+        pickedConnectionId: null,
+        pickedConnectionTarget: null
+    }
+
+    pickMark = ({currentTarget}, id) => {
+        const prevTarget = this.state.pickedMarkTarget;
+        if (prevTarget) {
+            prevTarget.classList.remove('pickedMark');
+            this.props.connectionActions.addConnection([this.state.pickedMarkId, id], this.props.connections)
+            this.setState({
+                pickedMarkId: null,
+                pickedMarkTarget: null}
+            )
+        } else {
+            currentTarget.classList.add('pickedMark')
+            this.setState({
+                pickedMarkId: id,
+                pickedMarkTarget: currentTarget
+            })
+        }
+    }
+
+    handlerSvgClick = (e) => {
+        const elems = document.elementsFromPoint(e.clientX, e.clientY);
+
+        for (let i = 0; i < elems.length; i++) {
+            if (elems[i].localName === 'line') {
+
+                this.state.pickedConnectionTarget &&
+                this.state.pickedConnectionTarget.classList.remove("pickedBond")
+
+                elems[i].classList.add("pickedBond")
+
+                this.setState({
+                    pickedConnectionTarget: elems[i],
+                    pickedConnectionId: elems[i].dataset.id
+                })
+            }
+
+        }
+    }
+
+    handlerCloseDialog = () => {
+        this.state.pickedConnectionTarget.classList.remove("pickedBond")
+
+        this.setState({ pickedConnectionId: null, pickedConnectionTarget: null })
+    }
+
+    handlerDeleteBtn = () => {
+        this.handlerCloseDialog()
+
+        this.props.connectionActions.deleteConnection(this.state.pickedConnectionId)
+    }
+
+    renderDeleteDialog = () => {
+        const pickedBond = this.props.connections.find(item => item.id === +this.state.pickedConnectionId);
+        const dots = pickedBond.coordinates;
+
+        return (
+            <div
+                className='deleteDialog'
+                style={
+                    {
+                        top: (dots.y2 + dots.y1)/2,
+                        left: (dots.x2 + dots.x1)/2
+                    }
+                }>
+                <div className="dialogText">
+                    Do you want to remove connection?
+                </div>
+                <div className="btnsWrap">
+                    <button
+                        className='btn'
+                        onClick={this.handlerCloseDialog}>
+                        No
+                    </button>
+                    <button
+                        className='btn'
+                        onClick={this.handlerDeleteBtn}>
+                        Yes
+                    </button>
+                </div>
+            </div>
+        )
     }
 
     render() {
@@ -48,14 +133,19 @@ class MarkSandbox extends Component {
                 }}>
                 {marks.map(mark =>
                     <MarkItem
-                        key={mark.id}
-                        mark={mark}
-                        onClick={() => this.pickMark(mark.id)}
+                        key={ mark.id }
+                        mark={ mark }
+                        pickMark={ this.pickMark }
                         {...markActions}/>
                 )}
                 {connections.map(connection =>
-                    <ConnectionItem key={connection.id} connection={connection} {...connectionActions} />
+                    <ConnectionItem
+                        key={ connection.id }
+                        connection={ connection }
+                        handlerSvgClick={ this.handlerSvgClick }
+                        {...connectionActions} />
                 )}
+                {this.state.pickedConnectionId && this.renderDeleteDialog()}
             </div>
         )
     }

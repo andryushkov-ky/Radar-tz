@@ -8,6 +8,17 @@ export const validateCoordinates = (box, clientCoord, id) => {
     return [...checkBorders(box, clientCoord), ...checkContact(clientCoord, id)];
 }
 
+export const validateConnection = (newBond, allConnections) => {
+    const errors = [];
+    const hasSameBond = allConnections.some((bond) => {
+        return bond.dots.sort().join(',') === newBond.sort().join(',')
+    })
+
+    hasSameBond && errors.push("Connection alredy exist")
+
+    return errors
+}
+
 // Let's check out that mark lay inside sandbox
 const checkBorders = (box, { x, y }) => {
     const borders = [
