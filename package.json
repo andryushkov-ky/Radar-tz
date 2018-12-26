@@ -14,7 +14,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build"
   },
-  "start_url": ".",
   "homepage": "./",
   "eslintConfig": {
     "extends": "react-app"

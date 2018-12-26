@@ -40,9 +40,11 @@ class MarkSandbox extends Component {
 
     pickMark = ({currentTarget}, id) => {
         const prevTarget = this.state.pickedMarkTarget;
-        if (prevTarget) {
+        const prevId = +this.state.pickedMarkId;
+
+        if (prevTarget && prevId !== id) {
             prevTarget.classList.remove('pickedMark');
-            this.props.connectionActions.addConnection([this.state.pickedMarkId, id], this.props.connections)
+            this.props.connectionActions.addConnection([prevId, id], this.props.connections)
             this.setState({
                 pickedMarkId: null,
                 pickedMarkTarget: null}

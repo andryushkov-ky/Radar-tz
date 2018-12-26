@@ -1,17 +1,38 @@
-### `npm start`
+## Тестовое задание для RADAR
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Выполненно согласно требованиям **./task.pdf**
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+#### Рабочий запуск
 
-### `npm run build`
+1. Клонируем/распаковываем репозиторий. 
+2. Переходим в корень проекта.
+3. Устанавливаем зависимости. **npm install**
+4. Запускаем сервер. **npm start**
+5. Приложение запустится на localhost:3000
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Билдим
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+1. Из корня приложения запускаем **npm run build**
+2. Приложение можно запустить без сервера **./build/index.html**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Константы
+
+**./src/js/constants/presetValues.js** <br>
+
+По умолчанию установлены:<br>
+**SANDBOX_WIDTH = 500**, **SANDBOX_HEIGHT = 500** - размеры рабочей области <br>
+**MARK_WIDTH = 60**, **MARK_HEIGHT = 30** - размеры прямоугольников <br>
+**BOND_WIDTH = 8**, **BOND_COLOR = green** - толщина и цвет связей <br>
+
+#### Юзабилити
+
+Двойным нажатием в рабочей области создаем прямоугольник.<br>
+Создадим несколько прямоугольников. Кликнем (mouse1) по одному из них, на нем появится рамка зеленого цвета, выбрав другой прямоугольник - создастся связь.<br>
+Кликнем (mouse1) по существующей связи, появится диалоговое окно с возможностью удаления связи, которая выделена красным цветом.
+
+
+
+#### Технологии
+
+View представление: **ReactJs 16.7** <br>
+Управление состоянием: **Redux 4.0** <br>
