@@ -45,28 +45,31 @@ const checkContact = ({ x, y }, id) => {
     const corners = [
         {
             name: `top left corner`,
-            elem: document.elementFromPoint(x - MARK_WIDTH/2, y + MARK_HEIGHT/2)
+            elems: document.elementsFromPoint(x - MARK_WIDTH/2, y + MARK_HEIGHT/2)
         },
         {
             name: `top right corner`,
-            elem: document.elementFromPoint(x + MARK_WIDTH/2, y + MARK_HEIGHT/2)
+            elems: document.elementsFromPoint(x + MARK_WIDTH/2, y + MARK_HEIGHT/2)
         },
         {
             name: `bottom left corner`,
-            elem: document.elementFromPoint(x - MARK_WIDTH/2, y - MARK_HEIGHT/2)
+            elems: document.elementsFromPoint(x - MARK_WIDTH/2, y - MARK_HEIGHT/2)
         },
         {
             name: `bottom right corner`,
-            elem: document.elementFromPoint(x + MARK_WIDTH/2, y - MARK_HEIGHT/2)
+            elems: document.elementsFromPoint(x + MARK_WIDTH/2, y - MARK_HEIGHT/2)
         }
     ];
     const contacts = [];
 
     corners.map(corner => {
-        debugger
-        // if (corner.elem.className.includes(markClassName) && +corner.elem.dataset.id !== id) {
-        //     contacts.push(`Contact with other mark in ${corner.name}`);
-        // }
+        for (let i = 0; i < corner.elems.length; i++) {
+            if (corner.elems[i].localName === 'div' &&
+                corner.elems[i].className.includes(markClassName) &&
+                +corner.elems[i].dataset.id !== id) {
+                contacts.push(`Contact with other mark in ${corner.name}`);
+            }
+        }
     })
 
     return contacts

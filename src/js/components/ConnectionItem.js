@@ -10,21 +10,82 @@ import {
 
 class ConnectionItem extends Component {
     static propTypes = {
-        bond: PropTypes.object.isRequired
+        connection: PropTypes.object.isRequired
     }
 
-    clicked (e) {
-        console.log("HEY");
+    constructor(props) {
+        super(props)
+
+        this.toggleDialog = this.toggleDialog.bind(this);
+        this.renderDeleteDialog = this.renderDeleteDialog.bind(this);
+        this.handlerDeleteBtn = this.handlerDeleteBtn.bind(this);
+    }
+
+    state = {
+        dialog: false
+    }
+
+    toggleDialog() {
+        const opposite = !this.state.dialog
+
+        this.setState({ dialog: opposite })
+    }
+
+    handlerDeleteBtn() {
+        this.toggleDialog()
+
+        this.props.deleteConnection(this.props.connection.id)
+    }
+
+    renderDeleteDialog() {
+        const dots = this.props.connection.coordinates
+
+        return (
+            <div
+                className='deleteDialog'
+                style={
+                    {
+                        top: (dots.y2 + dots.y1)/2,
+                        left: (dots.x2 + dots.x1)/2
+                    }
+                }>
+                <div className="dialogText">
+                    Do you want to remove connection?
+                </div>
+                <div className="btnsWrap">
+                    <button
+                        className='btn'
+                        onClick={this.toggleDialog}>
+                        No
+                    </button>
+                    <button
+                        className='btn'
+                        onClick={this.handlerDeleteBtn}>
+                        Yes
+                    </button>
+                </div>
+            </div>
+        )
     }
 
     render() {
-        const { bond } = this.props
+        const { connection } = this.props
+        const dots = connection.coordinates
 
         return (
-            <div className="bondWrap">
+            <div>
                 <svg width={SANDBOX_WIDTH} height={SANDBOX_HEIGHT}>
-                    <line x1="20" y1="20" x2="200" y2="100" stroke={BOND_COLOR} strokeWidth={BOND_WIDTH}/>
+                    <line
+                        onClick={this.toggleDialog}
+                        x1={dots.x1}
+                        y1={dots.y1}
+                        x2={dots.x2}
+                        y2={dots.y2}
+                        stroke={this.state.dialog ? 'red' : BOND_COLOR}
+                        strokeWidth={BOND_WIDTH}/>
                 </svg>
+
+                {this.state.dialog && this.renderDeleteDialog()}
             </div>
         )
     }

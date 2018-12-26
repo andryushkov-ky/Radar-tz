@@ -19,27 +19,42 @@ class MarkSandbox extends Component {
         }).isRequired).isRequired,
         connections: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.number.isRequired,
-            dots: PropTypes.array.isRequired
+            dots: PropTypes.arrayOf(PropTypes.number),
+            coordinates:PropTypes.shape({
+                x1: PropTypes.number.isRequired,
+                x2: PropTypes.number.isRequired,
+                y1: PropTypes.number.isRequired,
+                y2: PropTypes.number.isRequired
+            }).isRequired,
         }).isRequired).isRequired,
-        actions: PropTypes.object.isRequired
+        markActions: PropTypes.object.isRequired,
+        connectionActions: PropTypes.object.isRequired
+    }
+
+    pickMark(id) {
+        console.log("hey", id);
     }
 
     render() {
-        const { marks, connections, actions } = this.props
+        const { marks, connections, markActions, connectionActions } = this.props
 
         return (
             <div
                 className="sandbox"
-                onDoubleClick={(e) => actions.addMark(e)}
+                onDoubleClick={(e) => markActions.addMark(e)}
                 style={{
                     width: SANDBOX_WIDTH,
                     height: SANDBOX_HEIGHT
                 }}>
                 {marks.map(mark =>
-                    <MarkItem key={mark.id} mark={mark} {...actions} />
+                    <MarkItem
+                        key={mark.id}
+                        mark={mark}
+                        onClick={() => this.pickMark(mark.id)}
+                        {...markActions}/>
                 )}
-                {connections.map(bond =>
-                    <ConnectionItem key={bond.id} bond={bond} {...actions} />
+                {connections.map(connection =>
+                    <ConnectionItem key={connection.id} connection={connection} {...connectionActions} />
                 )}
             </div>
         )

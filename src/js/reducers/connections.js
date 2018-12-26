@@ -1,5 +1,6 @@
 import {
-    ADD_CONNECTION
+    ADD_CONNECTION,
+    DELETE_CONNECTION
 } from '../constants/actionTypes'
 
 const initialState = [
@@ -10,17 +11,20 @@ const initialState = [
 ]
 
 
-export default (state = initialState, { type, ids }) => {
+export default (state = initialState, { type, deleteId, connectMark }) => {
     switch (type) {
         case ADD_CONNECTION:
             return [
                 ...state,
                 {
                     id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
-                    dots: ids
+                    dots: connectMark
                 }
             ]
-
+        case DELETE_CONNECTION:
+            return state.filter(bond =>
+                bond.id !== deleteId
+            )
         default:
             return state
     }
