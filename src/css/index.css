@@ -28,10 +28,4 @@ p { margin: 5px 0 10px 0; }
 
 .moving {
     opacity: 0.25;
-    -webkit-transform: scale(0.5);
-    transform: scale(0.5);
-}
-
-.over {
-    background-color: red !important;
 }

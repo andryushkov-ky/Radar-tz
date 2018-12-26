@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
-    MARK_HIGHT,
+    MARK_HEIGHT,
     MARK_WIDTH
-} from '../constants/presetSizes'
+} from '../constants/presetValues'
 
 class MarkItem extends Component {
     static propTypes = {
@@ -11,56 +11,43 @@ class MarkItem extends Component {
         editMark: PropTypes.func.isRequired
     }
 
-    dragStart = (e) => {
-        console.log("dragStart")
-        e.currentTarget.classList.add('moving');
+    state = {
+        moving: false
+    }
 
-        e.dataTransfer.effectAllowed = 'move';
+    dragStart = e => {
+        this.setState({ moving: true })
+
         e.dataTransfer.setData('text/html', document.querySelector(".sandbox"));
     }
 
-    dragEnter = (e) => {
-        e.currentTarget.classList.add('over');
+    dragEnd = e => {
+        this.setState({ moving: false })
 
-
-    }
-
-    dragLeave = (e) => {
-        e.currentTarget.classList.remove('over');
-    }
-
-    dragEnd = (e) => {
-        console.log("dragEnd", e);
-        console.log("dragEnd", this.props.mark);
-        console.log("END", e.pageX, e.pageY);
-
-        this.props.editMark({
-            id: this.props.mark.id,
-            x: e.pageX,
-            y: e.pageY,
-        })
+        this.props.editMark(e, this.props.mark.id)
     }
 
     render() {
         const { mark } = this.props
+        const classHelper = this.state.moving ? `moving` : '';
 
         return (
             <div
-                className="mark"
+                className={`mark el ${classHelper}`}
                 draggable='true'
                 onDragStart={(e) => this.dragStart(e)}
                 onDragOver={(e) => e.preventDefault()}
-                onDragEnter={(e) => this.dragEnter(e)}
-                onDragLeave={(e) => this.dragLeave(e)}
                 onDrop={(e) => e.stopPropagation()}
                 onDragEnd={(e) => this.dragEnd(e)}
                 style={{
                     top: mark.y,
                     left: mark.x,
-                    height: MARK_HIGHT,
+                    height: MARK_HEIGHT,
                     width: MARK_WIDTH,
+                    margin: `${-MARK_HEIGHT/2}px 0 0 ${-MARK_WIDTH/2}px`,
                     background: mark.color
                 }}
+                data-id={mark.id}
                 key={mark.id}>
             </div>
         )

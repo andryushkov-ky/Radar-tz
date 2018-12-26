@@ -4,7 +4,8 @@ import * as MarkActions from '../actions'
 import MarkSandbox from '../components/MarkSandbox'
 
 const mapStateToProps = state => ({
-    marks: state.marks
+    marks: state.marks,
+    connections: state.connections
 })
 
 const mapDispatchToProps = (dispatch) => ({
