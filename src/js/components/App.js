@@ -1,10 +1,10 @@
 import React from 'react'
 
-import MarkList from '../containers/MarkSandbox'
+import MarkSandbox from '../containers/MarkSandbox'
 
 const App = () => (
     <div>
-        <MarkList />
+        <MarkSandbox />
     </div>
 )
 

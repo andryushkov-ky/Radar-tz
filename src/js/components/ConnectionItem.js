@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import {
@@ -8,35 +8,29 @@ import {
     BOND_COLOR
 } from '../constants/presetValues'
 
-class ConnectionItem extends Component {
-    static propTypes = {
-        connection: PropTypes.object.isRequired,
-        handlerSvgClick: PropTypes.func.isRequired
-    }
+const ConnectionItem = ({ connection, handlerSvgClick }) => (
+    <div>
+        <div className='connectionItem'>
+            <svg
+                onClick={e => handlerSvgClick(e)}
+                width={SANDBOX_WIDTH}
+                height={SANDBOX_HEIGHT}>
+                <line
+                    data-id={connection.id}
+                    x1={connection.coordinates.x1}
+                    y1={connection.coordinates.y1}
+                    x2={connection.coordinates.x2}
+                    y2={connection.coordinates.y2}
+                    stroke={BOND_COLOR}
+                    strokeWidth={BOND_WIDTH}/>
+            </svg>
+        </div>
+    </div>
+)
 
-    render() {
-        const { connection, handlerSvgClick } = this.props
-        const dots = connection.coordinates
-
-        return (
-            <div className='connectionItem'>
-                <svg
-                    onClick={e => handlerSvgClick(e)}
-                    width={SANDBOX_WIDTH}
-                    height={SANDBOX_HEIGHT}>
-                    <line
-                        data-id={connection.id}
-                        onClick={this.toggleDialog}
-                        x1={dots.x1}
-                        y1={dots.y1}
-                        x2={dots.x2}
-                        y2={dots.y2}
-                        stroke={BOND_COLOR}
-                        strokeWidth={BOND_WIDTH}/>
-                </svg>
-            </div>
-        )
-    }
+ConnectionItem.propTypes = {
+    connection: PropTypes.object.isRequired,
+    handlerSvgClick: PropTypes.func.isRequired
 }
 
 export default ConnectionItem
