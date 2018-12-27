@@ -3,7 +3,7 @@ import {
     EDIT_MARK
 } from '../constants/actionTypes'
 
-import { setRandomColor } from '../selectors'
+import { randomColor } from '../selectors'
 
 const initialState = [
     {
@@ -32,7 +32,7 @@ export default (state = initialState, { type, coordinates, id }) => {
                     id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
                     x: coordinates.innerX,
                     y: coordinates.innerY,
-                    color: setRandomColor()
+                    color: randomColor()
                 }
             ]
         case EDIT_MARK:

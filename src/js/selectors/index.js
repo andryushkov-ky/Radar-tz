@@ -14,7 +14,7 @@ export const setConnectionCoordinates = (connections, marks) => {
     })
 }
 
-export const setRandomColor = () => {
+export const randomColor = () => {
     const letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {
