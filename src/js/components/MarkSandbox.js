@@ -127,7 +127,7 @@ class MarkSandbox extends Component {
 
     render() {
         const { marks, connections, markActions, connectionActions } = this.props
-        console.log("NEW RENDER");
+
         return (
             <div
                 className="sandbox"
