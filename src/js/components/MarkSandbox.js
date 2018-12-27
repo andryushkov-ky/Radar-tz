@@ -31,30 +31,33 @@ class MarkSandbox extends Component {
         connectionActions: PropTypes.object.isRequired
     }
 
+    constructor(props) {
+        super(props);
+
+        this.pickedMarkId = null;
+        this.pickedMarkTarget = null;
+    }
+
     state = {
-        pickedMarkId: null,
-        pickedMarkTarget: null,
         pickedConnectionId: null,
         pickedConnectionTarget: null
     }
 
     pickMark = ({currentTarget}, id) => {
-        const prevTarget = this.state.pickedMarkTarget;
-        const prevId = +this.state.pickedMarkId;
+        const prevTarget = this.pickedMarkTarget;
+        const prevId = +this.pickedMarkId;
 
         if (prevTarget && prevId !== id) {
             prevTarget.classList.remove('pickedMark');
             this.props.connectionActions.addConnection([prevId, id], this.props.connections)
-            this.setState({
-                pickedMarkId: null,
-                pickedMarkTarget: null}
-            )
+
+            this.pickedMarkId = null;
+            this.pickedMarkTarget = null;
         } else {
             currentTarget.classList.add('pickedMark')
-            this.setState({
-                pickedMarkId: id,
-                pickedMarkTarget: currentTarget
-            })
+
+            this.pickedMarkId = id;
+            this.pickedMarkTarget = currentTarget;
         }
     }
 
@@ -124,7 +127,7 @@ class MarkSandbox extends Component {
 
     render() {
         const { marks, connections, markActions, connectionActions } = this.props
-
+        console.log("NEW RENDER");
         return (
             <div
                 className="sandbox"
@@ -147,6 +150,7 @@ class MarkSandbox extends Component {
                         handlerSvgClick={ this.handlerSvgClick }
                         {...connectionActions} />
                 )}
+
                 {this.state.pickedConnectionId && this.renderDeleteDialog()}
             </div>
         )

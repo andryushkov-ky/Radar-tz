@@ -3,6 +3,8 @@ import {
     EDIT_MARK
 } from '../constants/actionTypes'
 
+import { setRandomColor } from '../selectors'
+
 const initialState = [
     {
         id: 0,
@@ -19,14 +21,7 @@ const initialState = [
     }
 ]
 
-const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
+
 
 export default (state = initialState, { type, coordinates, id }) => {
     switch (type) {
@@ -37,7 +32,7 @@ export default (state = initialState, { type, coordinates, id }) => {
                     id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
                     x: coordinates.innerX,
                     y: coordinates.innerY,
-                    color: getRandomColor()
+                    color: setRandomColor()
                 }
             ]
         case EDIT_MARK:
